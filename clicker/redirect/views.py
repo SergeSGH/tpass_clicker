@@ -1,11 +1,13 @@
-from django.shortcuts import redirect, get_object_or_404
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect
+from django.utils import timezone as tz
+
 from .models import Link
-from django.views.generic.base import RedirectView 
 
 
 def RedirectLink(request, short_link):
     link = get_object_or_404(Link, short_link=short_link)
-    print(link.expires)
-    print(link.original_link)
-    return redirect(link.original_link)
-    #return RedirectView.as_view(url=link.original_link)
+    if tz.now() < link.expires:
+        return redirect(link.original_link)
+    else:
+        return HttpResponse('Cрок действия ссылки закончился', status=400)

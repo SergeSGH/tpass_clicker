@@ -22,7 +22,7 @@ class Link(models.Model):
     )
 
     class Meta:
-        ordering = ['-id']
+        ordering = ['id']
         verbose_name = 'Ссылка'
         verbose_name_plural = 'Ссылки'
 
